@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class ListenService;
 
 @interface DesktopServiceAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
+    ListenService *listenService_;    
 }
 
 @property (assign) IBOutlet NSWindow *window;
