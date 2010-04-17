@@ -10,7 +10,7 @@
 @class ApplicationController;
 
 
-@interface ListenService : NSObject {
+@interface ListenService : NSObject <NSNetServiceDelegate> {
 
 #pragma mark Instance variables
     ApplicationController* appController_;
@@ -18,12 +18,13 @@
     NSFileHandle* connectionFileHandle_;
 }
 
-- (void)startService;
-- (void)publishService;
-- (void)handleIncomingConnection;
-- (void)readIncomingData;
-- (void)stopReceivingForFileHandle:(NSFileHandle*)fileHandleToStop 
-                   closeFileHandle:(NSFileHandle*)fileHandleToClose;
+- (BOOL)startService;
+- (void)handleIncomingConnection:(NSNotification*)notification;
+- (void)readIncomingData:(NSNotification*) notification;
 
+- (void)stopReceivingForFileHandle:(NSFileHandle*)fileHandleToStop 
+                   closeFileHandle:(BOOL)closeFileBool;
+
+- (void)publishService;
 
 @end

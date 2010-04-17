@@ -34,7 +34,7 @@ const NSUInteger kListenPort = 8081;
 
 
 // create socket for listening
-- (void)startService{
+- (BOOL)startService{
     socket_ = CFSocketCreate(
                              kCFAllocatorDefault,
                              PF_INET,
@@ -64,26 +64,86 @@ const NSUInteger kListenPort = 8081;
         NSLog(@"ERROR setsockopt");
     }
     
+    // set socket structure
+    struct sockaddr_in address;
+	memset(&address, 0, sizeof(address));
+	address.sin_len = sizeof(address);
+	address.sin_family = AF_INET;
+	address.sin_addr.s_addr = htonl(INADDR_ANY);
+	address.sin_port = htons(kListenPort);
+    
+    
+    // wrap socket structure in CFData
+    CFDataRef addressData = CFDataCreate(NULL, (const UInt8 *)&address, sizeof(address));	
+	[(id)addressData autorelease];
+    
+	// bind socket to the address
+	if (CFSocketSetAddress(socket_, addressData) != kCFSocketSuccess)
+	{
+		[appController_ appendStringToLog:@"Unable to bind socket to address"];
+		return NO;
+	}
+    return YES;
 }
 
-- (void)publishService{
-    
+
+- (void)handleIncomingConnection:(NSNotification*)notification
+{
+	NSDictionary*	userInfo			=	[notification userInfo];
+	NSFileHandle*	readFileHandle		=	[userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
+	
+    if(readFileHandle)
+	{
+		[[NSNotificationCenter defaultCenter]
+		 addObserver:self
+		 selector:@selector(readIncomingData:)
+		 name:NSFileHandleDataAvailableNotification
+		 object:readFileHandle];
+		
+		[appController_ appendStringToLog:@"Opened an incoming connection"];
+		
+        [readFileHandle waitForDataInBackgroundAndNotify];
+    }
+	
+	[connectionFileHandle_ acceptConnectionInBackgroundAndNotify];
 }
 
 
-- (void)handleIncomingConnection{
-    
-}
-
-
-- (void)readIncomingData{
-    
+- (void) readIncomingData:(NSNotification*) notification
+{
+	NSFileHandle*	readFileHandle	= [notification object];
+	NSData*			data			= [readFileHandle availableData];
+	
+	if ([data length] == 0)
+	{
+		[appController_ appendStringToLog:@"No more data in file handle, closing"];
+		
+		[self stopReceivingForFileHandle:readFileHandle closeFileHandle:YES];
+		return;
+	}	
+	
+	[appController_ appendStringToLog:@"Got a message :"];
+	[appController_ appendStringToLog:[NSString stringWithUTF8String:[data bytes]]];
+	
+	// wait for a read again
+	[readFileHandle waitForDataInBackgroundAndNotify];	
 }
 
 
 - (void)stopReceivingForFileHandle:(NSFileHandle*)fileHandleToStop 
-                   closeFileHandle:(NSFileHandle*)fileHandleToClose{
+                   closeFileHandle:(BOOL)closeFileBool{
     
+}
+
+
+- (void)publishService{
+    NSNetService* netService = [[NSNetService alloc] initWithDomain:@"" 
+                                                               type:kServiceTypeString
+                                                               name:kServiceNameString 
+                                                               port:kListenPort];
+	// publish on the default domains	
+    [netService setDelegate:self];
+    [netService publish];    
 }
 
 @end
