@@ -1365,6 +1365,26 @@
 								</object>
 							</object>
 						</object>
+						<object class="NSTextField" id="801232302">
+							<reference key="NSNextResponder" ref="439893737"/>
+							<int key="NSvFlags">268</int>
+							<string key="NSFrame">{{17, 370}, {38, 21}}</string>
+							<reference key="NSSuperview" ref="439893737"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="363812860">
+								<int key="NSCellFlags">68288064</int>
+								<int key="NSCellFlags2">272892928</int>
+								<string key="NSContents">Log</string>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">ArialMT</string>
+									<double key="NSSize">18</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<reference key="NSControlView" ref="801232302"/>
+								<reference key="NSBackgroundColor" ref="14935416"/>
+								<reference key="NSTextColor" ref="241460889"/>
+							</object>
+						</object>
 						<object class="NSScrollView" id="813209682">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">256</int>
@@ -1523,26 +1543,6 @@
 							<reference key="NSVScroller" ref="629868533"/>
 							<reference key="NSHScroller" ref="321836015"/>
 							<reference key="NSContentView" ref="1006956338"/>
-						</object>
-						<object class="NSTextField" id="801232302">
-							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">268</int>
-							<string key="NSFrame">{{17, 370}, {38, 21}}</string>
-							<reference key="NSSuperview" ref="439893737"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="363812860">
-								<int key="NSCellFlags">68288064</int>
-								<int key="NSCellFlags2">272892928</int>
-								<string key="NSContents">Log</string>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">ArialMT</string>
-									<double key="NSSize">18</double>
-									<int key="NSfFlags">16</int>
-								</object>
-								<reference key="NSControlView" ref="801232302"/>
-								<reference key="NSBackgroundColor" ref="14935416"/>
-								<reference key="NSTextColor" ref="241460889"/>
-							</object>
 						</object>
 					</object>
 					<string key="NSFrameSize">{480, 480}</string>
