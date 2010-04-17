@@ -33,8 +33,9 @@ const NSUInteger kListenPort = 8081;
 }
 
 
-// create socket for listening
 - (BOOL)startService{
+    
+    // create socket for listening
     socket_ = CFSocketCreate(
                              kCFAllocatorDefault,
                              PF_INET,
@@ -83,15 +84,30 @@ const NSUInteger kListenPort = 8081;
 		[appController_ appendStringToLog:@"Unable to bind socket to address"];
 		return NO;
 	}
+    
+    // wrap the file descriptor associated with socket in a NSFileHandle
+    connectionFileHandle_ = [[NSFileHandle alloc] initWithFileDescriptor:fileDescriptor closeOnDealloc:YES];
+	
+    // register for connection notifications
+	[[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleIncomingConnection:) 
+     name:NSFileHandleConnectionAcceptedNotification
+     object:nil];
+	
+	[connectionFileHandle_ acceptConnectionInBackgroundAndNotify];
     return YES;
 }
 
 
+// handle NSFileHandleConnectionAcceptedNotifications
 - (void)handleIncomingConnection:(NSNotification*)notification
 {
 	NSDictionary*	userInfo			=	[notification userInfo];
 	NSFileHandle*	readFileHandle		=	[userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
 	
+    NSLog(@"handleIncomingConnection");
+    
     if(readFileHandle)
 	{
 		[[NSNotificationCenter defaultCenter]
@@ -100,6 +116,7 @@ const NSUInteger kListenPort = 8081;
 		 name:NSFileHandleDataAvailableNotification
 		 object:readFileHandle];
 		
+        NSLog(@"Opened an incoming connection");
 		[appController_ appendStringToLog:@"Opened an incoming connection"];
 		
         [readFileHandle waitForDataInBackgroundAndNotify];
@@ -121,8 +138,10 @@ const NSUInteger kListenPort = 8081;
 		[self stopReceivingForFileHandle:readFileHandle closeFileHandle:YES];
 		return;
 	}	
-	
+
+    NSLog(@"Got a message :");
 	[appController_ appendStringToLog:@"Got a message :"];
+	NSLog(@"%@", [NSString stringWithUTF8String:[data bytes]]);
 	[appController_ appendStringToLog:[NSString stringWithUTF8String:[data bytes]]];
 	
 	// wait for a read again

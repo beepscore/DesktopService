@@ -40,6 +40,7 @@
 {
     // Ref: appending text to a view
     // http://developer.apple.com/mac/library/documentation/cocoa/conceptual/TextArchitecture/Tasks/SimpleTasks.html
+    NSLog(@"appendStringToLog %@", aString);
     NSRange endRange;
     
     endRange.location = [[logTextView textStorage] length];    
