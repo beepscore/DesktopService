@@ -17,7 +17,8 @@
 #pragma mark properties
 @property(nonatomic,retain)IBOutlet NSTextView *logTextView;
 
-+(ApplicationController*)sharedApplicationController;
+// singleton pattern Ref Buck Cocoa Design Patterns Ch 13
++(id)sharedApplicationController;
 
 -(void)appendStringToLog:(NSString*)aString;
 
