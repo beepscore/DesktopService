@@ -15,19 +15,22 @@
 @synthesize logTextView;
 
 // Ref Singletons
-// http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like
 // Cocoa Fundamentals Guide / Cocoa Objects / Creating a singleton instance. Code listing 2-15
 // http://developer.apple.com/mac/library/documentation/Cocoa/Conceptual/CocoaFundamentals/CocoaObjects/CocoaObjects.html#//apple_ref/doc/uid/TP40002974-CH4-SW32
+//
+// Potential problem using singleton in a nib.  Mike Ash overrides -init
 // http://www.cocoadev.com/index.pl?SingletonDesignPattern
+//
+// Chris Hanson's suggested non-strict singleton didn't work.
+// http://stackoverflow.com/questions/145154/what-does-your-objective-c-singleton-look-like
 // Buck Cocoa Design Patterns Ch 13
-
 
 + (ApplicationController*)sharedApplicationController{    
     static ApplicationController *sharedApplicationController;
     
     if (sharedApplicationController == nil) {        
         sharedApplicationController = [[super allocWithZone:NULL] init];        
-    }    
+    }
     return sharedApplicationController;
 }
 
@@ -61,9 +64,8 @@
 {
     // Ref: appending text to a view
     // http://developer.apple.com/mac/library/documentation/cocoa/conceptual/TextArchitecture/Tasks/SimpleTasks.html
-    NSLog(@"appendStringToLog %@\n", aString);
-    NSRange endRange;
-    
+
+    NSRange endRange;    
     endRange.location = [[logTextView textStorage] length];    
     endRange.length = 0;    
     [logTextView replaceCharactersInRange:endRange withString:aString];

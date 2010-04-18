@@ -81,7 +81,7 @@ const NSUInteger kListenPort = 8081;
 	// bind socket to the address
 	if (CFSocketSetAddress(socket_, addressData) != kCFSocketSuccess)
 	{
-		[appController_ appendStringToLog:@"Unable to bind socket to address"];
+		[appController_ appendStringToLog:@"Unable to bind socket to address\n"];
 		return NO;
 	}
     
@@ -106,8 +106,6 @@ const NSUInteger kListenPort = 8081;
 	NSDictionary*	userInfo			=	[notification userInfo];
 	NSFileHandle*	readFileHandle		=	[userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
 	
-    NSLog(@"handleIncomingConnection");
-    
     if(readFileHandle)
 	{
 		[[NSNotificationCenter defaultCenter]
@@ -116,8 +114,7 @@ const NSUInteger kListenPort = 8081;
 		 name:NSFileHandleDataAvailableNotification
 		 object:readFileHandle];
 		
-        NSLog(@"Opened an incoming connection");
-		[appController_ appendStringToLog:@"Opened an incoming connection"];
+		[appController_ appendStringToLog:@"Opened an incoming connection."];
 		
         [readFileHandle waitForDataInBackgroundAndNotify];
     }
@@ -133,15 +130,13 @@ const NSUInteger kListenPort = 8081;
 	
 	if ([data length] == 0)
 	{
-		[appController_ appendStringToLog:@"No more data in file handle, closing"];
+		[appController_ appendStringToLog:@"\nNo more data in file handle, closing.\n"];
 		
 		[self stopReceivingForFileHandle:readFileHandle closeFileHandle:YES];
 		return;
 	}	
 
-    NSLog(@"Got a message :");
-	[appController_ appendStringToLog:@"Got a message :"];
-	NSLog(@"%@", [NSString stringWithUTF8String:[data bytes]]);
+	[appController_ appendStringToLog:@"\nGot a message: "];
 	[appController_ appendStringToLog:[NSString stringWithUTF8String:[data bytes]]];
 	
 	// wait for a read again
