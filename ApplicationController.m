@@ -22,16 +22,37 @@
 // Buck Cocoa Design Patterns Ch 13
 
 
-+ (ApplicationController *)sharedApplicationController
-{
-    static ApplicationController *sharedApplicationController;    
-    @synchronized(self)
-    {
-        if (!sharedApplicationController)
-            sharedApplicationController = [[ApplicationController alloc] init];
-        
-        return sharedApplicationController;
-    }
++ (ApplicationController*)sharedApplicationController{    
+    static ApplicationController *sharedApplicationController;
+    
+    if (sharedApplicationController == nil) {        
+        sharedApplicationController = [[super allocWithZone:NULL] init];        
+    }    
+    return sharedApplicationController;
+}
+
++ (id)allocWithZone:(NSZone *)zone{
+    return [[self sharedApplicationController] retain];    
+}
+
+- (id)copyWithZone:(NSZone *)zone{    
+    return self;
+}
+
+- (id)retain{
+    return self;    
+}
+
+- (NSUInteger)retainCount{    
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (void)release{    
+    //do nothing
+}
+
+- (id)autorelease{    
+    return self;
 }
 
 
@@ -40,7 +61,7 @@
 {
     // Ref: appending text to a view
     // http://developer.apple.com/mac/library/documentation/cocoa/conceptual/TextArchitecture/Tasks/SimpleTasks.html
-    NSLog(@"appendStringToLog %@", aString);
+    NSLog(@"appendStringToLog %@\n", aString);
     NSRange endRange;
     
     endRange.location = [[logTextView textStorage] length];    
