@@ -49,8 +49,8 @@ const NSUInteger kListenPort = 8081;
     
     int fileDescriptor = CFSocketGetNative(socket_);
     
-    // ????: Reuse
-    NSInteger reuse;
+    // reuse
+    NSInteger reuse = true;
     
     // set socket for reuse
     int result = setsockopt(
