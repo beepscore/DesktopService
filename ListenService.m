@@ -16,7 +16,7 @@
 
 // Ref Class 3 video 02:29:01, 02:31:09
 NSString* const kServiceTypeString = @"_uwcelistener._tcp.";
-NSString* const kServiceNameString = @"HW3_1 listen service";
+NSString* const kServiceNameString = @"Beepscore listen service";
 const NSUInteger kListenPort = 8081;
 
 
@@ -46,10 +46,9 @@ const NSUInteger kListenPort = 8081;
                              NULL
                              );    
     
-    
     int fileDescriptor = CFSocketGetNative(socket_);
     
-    // reuse
+    // set reuse flag
     NSInteger reuse = true;
     
     // set socket for reuse
@@ -71,8 +70,7 @@ const NSUInteger kListenPort = 8081;
 	address.sin_len = sizeof(address);
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = htonl(INADDR_ANY);
-	address.sin_port = htons(kListenPort);
-    
+	address.sin_port = htons(kListenPort);    
     
     // wrap socket structure in CFData
     CFDataRef addressData = CFDataCreate(NULL, (const UInt8 *)&address, sizeof(address));	
@@ -135,7 +133,7 @@ const NSUInteger kListenPort = 8081;
 		[self stopReceivingForFileHandle:readFileHandle closeFileHandle:YES];
 		return;
 	}	
-
+    
 	[appController_ appendStringToLog:@"\nGot a message: "];
 	[appController_ appendStringToLog:[NSString stringWithUTF8String:[data bytes]]];
 	
@@ -151,17 +149,17 @@ const NSUInteger kListenPort = 8081;
 
 
 - (void)publishService{
-//    NSNetService* netService = [[NSNetService alloc] initWithDomain:@"local." 
-//                                                               type:kServiceTypeString
-//                                                               name:kServiceNameString 
-//                                                               port:kListenPort];
+    // publish on the default domains
+	// domain can be @"" or @"local."
     NSNetService* netService = [[NSNetService alloc] initWithDomain:@"" 
                                                                type:kServiceTypeString
                                                                name:kServiceNameString 
                                                                port:kListenPort];
-	// publish on the default domains	
     [netService setDelegate:self];
-    [netService publish];    
+    [netService publish];
+    [appController_ appendStringToLog:
+     [NSString stringWithFormat:@"Published service type:%@ with name %@ on port %d\n",
+      kServiceTypeString, kServiceNameString, kListenPort]];
 }
 
 @end
