@@ -151,6 +151,10 @@ const NSUInteger kListenPort = 8081;
 
 
 - (void)publishService{
+//    NSNetService* netService = [[NSNetService alloc] initWithDomain:@"local." 
+//                                                               type:kServiceTypeString
+//                                                               name:kServiceNameString 
+//                                                               port:kListenPort];
     NSNetService* netService = [[NSNetService alloc] initWithDomain:@"" 
                                                                type:kServiceTypeString
                                                                name:kServiceNameString 
