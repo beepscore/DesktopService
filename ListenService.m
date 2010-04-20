@@ -46,12 +46,9 @@ const NSUInteger kListenPort = 8081;
                              NULL
                              );    
     
-    int fileDescriptor = CFSocketGetNative(socket_);
-    
-    // set reuse flag
-    NSInteger reuse = true;
-    
     // set socket for reuse
+    int fileDescriptor = CFSocketGetNative(socket_);
+    int reuse = true;
     int result = setsockopt(
                             fileDescriptor,
                             SOL_SOCKET,
@@ -82,6 +79,10 @@ const NSUInteger kListenPort = 8081;
 		[appController_ appendStringToLog:@"Unable to bind socket to address\n"];
 		return NO;
 	}
+    
+    [appController_ appendStringToLog:
+     [NSString stringWithFormat:@"Listening to socket on port %d\n", kListenPort]];
+    
     
     // wrap the file descriptor associated with socket in a NSFileHandle
     connectionFileHandle_ = [[NSFileHandle alloc] initWithFileDescriptor:fileDescriptor closeOnDealloc:YES];
