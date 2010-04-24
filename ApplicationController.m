@@ -13,7 +13,16 @@
 @implementation ApplicationController
 
 #pragma mark properties
-@synthesize logTextView;
+@synthesize logTextView = logTextView_;
+@synthesize drawView = drawView_;
+
+@synthesize shouldDrawColor1;
+@synthesize shouldDrawColor2;
+@synthesize shouldDrawColor3;
+
+@synthesize color1 = color1_;
+@synthesize color2 = color2_;
+@synthesize color3 = color3_;
 
 // Ref Singletons
 // Cocoa Fundamentals Guide / Cocoa Objects / Creating a singleton instance. Code listing 2-15
