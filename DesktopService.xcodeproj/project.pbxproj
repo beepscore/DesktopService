@@ -12,6 +12,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		DE65E1F21182475100D94608 /* ThreadedDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = DE65E1F11182475100D94608 /* ThreadedDrawingView.m */; };
 		DE6A497E11782062007949C3 /* ListenService.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6A497D11782062007949C3 /* ListenService.m */; };
 		DE6C3537117842C30071BDF0 /* ApplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE6C3536117842C30071BDF0 /* ApplicationController.m */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,8 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8D1107310486CEB800E47090 /* DesktopService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DesktopService-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* DesktopService.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesktopService.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE65E1F01182475100D94608 /* ThreadedDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadedDrawingView.h; sourceTree = "<group>"; };
+		DE65E1F11182475100D94608 /* ThreadedDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadedDrawingView.m; sourceTree = "<group>"; };
 		DE6A497C11782062007949C3 /* ListenService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListenService.h; sourceTree = "<group>"; };
 		DE6A497D11782062007949C3 /* ListenService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListenService.m; sourceTree = "<group>"; };
 		DE6C3535117842C30071BDF0 /* ApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationController.h; sourceTree = "<group>"; };
@@ -50,12 +53,14 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				DE6A497C11782062007949C3 /* ListenService.h */,
-				DE6A497D11782062007949C3 /* ListenService.m */,
-				256AC3D80F4B6AC300CF3369 /* DesktopServiceAppDelegate.h */,
-				256AC3D90F4B6AC300CF3369 /* DesktopServiceAppDelegate.m */,
 				DE6C3535117842C30071BDF0 /* ApplicationController.h */,
 				DE6C3536117842C30071BDF0 /* ApplicationController.m */,
+				256AC3D80F4B6AC300CF3369 /* DesktopServiceAppDelegate.h */,
+				256AC3D90F4B6AC300CF3369 /* DesktopServiceAppDelegate.m */,
+				DE6A497C11782062007949C3 /* ListenService.h */,
+				DE6A497D11782062007949C3 /* ListenService.m */,
+				DE65E1F01182475100D94608 /* ThreadedDrawingView.h */,
+				DE65E1F11182475100D94608 /* ThreadedDrawingView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				256AC3DA0F4B6AC300CF3369 /* DesktopServiceAppDelegate.m in Sources */,
 				DE6A497E11782062007949C3 /* ListenService.m in Sources */,
 				DE6C3537117842C30071BDF0 /* ApplicationController.m in Sources */,
+				DE65E1F21182475100D94608 /* ThreadedDrawingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
