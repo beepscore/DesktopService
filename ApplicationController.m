@@ -184,7 +184,7 @@
     {        
         if ([[self drawView] lockFocusIfCanDraw])
         {
-            NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+            NSAutoreleasePool *poolTwo = [[NSAutoreleasePool alloc] init];
             
             if ([self shouldDrawColor:color])
             {
@@ -197,18 +197,26 @@
                 lastPoint = point;
             }
             [[self drawView] unlockFocus];
-            [pool release];
+            
+            // http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSAutoreleasePool_Class/Reference/Reference.html#//apple_ref/occ/instm/NSAutoreleasePool/drain
+            [poolTwo drain];
         }
     }
     NSLog(@"Exited threadForColor: %@", [color description]);
-    [poolOne release];
+    // ????: if breakpoint here and user clicks "Draw Red" button, execution stops in drawColor1checked.
+    // doesn't happen for other draw2colorChecked. Why?  Evaluation order of conditionals?
+    [poolOne drain];
 }
 
 
 #pragma mark -
 #pragma mark IBAction
-// Use checkboxes in view to set applicationController's properties.
-// This is better MVC design than inspecting view checkbox properties in the controller.
+// Use checkboxes in View to have Controller set Model properties.
+// Here ApplicationController acts as the Controller and the Model.
+// When user click event occurs, view sends message to controller to change model state.
+// This is a more event driven design than having the controller continuously poll the view for each button state.
+// the shouldDrawColor1,2,3 properties are convenient for handling input from iPhone client.
+
 - (IBAction)drawColor1Checked:(id)sender{
     self.shouldDrawColor1 = (NSOnState == [sender state]);
 }
