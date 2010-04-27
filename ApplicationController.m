@@ -196,7 +196,9 @@
     // this thread runs indefinitely
     while (true)
     {    
-        // this locks access to the window
+        // lockFocusIfCanDraw is a mutex.
+        // When a thread executes lockFocusIfCanDraw, 
+        // only that thread can access the locked section of code
         if ([[self drawView] lockFocusIfCanDraw])
         {
             NSAutoreleasePool *poolTwo = [[NSAutoreleasePool alloc] init];
@@ -211,7 +213,7 @@
                 [[[self drawView] window] flushWindow];
                 lastPoint = point;
             }
-            // this unlocks mutex so other threads can draw
+            // unlock mutex so other threads can draw
             [[self drawView] unlockFocus];
             
             // http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSAutoreleasePool_Class/Reference/Reference.html#//apple_ref/occ/instm/NSAutoreleasePool/drain
