@@ -10,6 +10,15 @@
 #import "ThreadedDrawingView.h"
 #import "ListenService.h"
 
+
+// declare anonymous category for "private" methods, avoid showing in .h file
+// Note in Objective C no method is private, it can be called from elsewhere.
+// Ref http://stackoverflow.com/questions/1052233/iphone-obj-c-anonymous-category-or-private-category
+@interface ApplicationController()
+- (void) startService;
+@end
+
+
 @implementation ApplicationController
 
 #pragma mark properties
@@ -65,8 +74,13 @@
 }
 
 
+// controller is awakeFromNib
 -(void)awakeFromNib
 {
+    [super awakeFromNib];
+    
+    [self startService];
+    
     [[self drawView] setNeedsDisplay:YES];
     
     // start 3 drawing threads
@@ -181,7 +195,8 @@
     
     // this thread runs indefinitely
     while (true)
-    {        
+    {    
+        // this locks access to the window
         if ([[self drawView] lockFocusIfCanDraw])
         {
             NSAutoreleasePool *poolTwo = [[NSAutoreleasePool alloc] init];
@@ -196,6 +211,7 @@
                 [[[self drawView] window] flushWindow];
                 lastPoint = point;
             }
+            // this unlocks mutex so other threads can draw
             [[self drawView] unlockFocus];
             
             // http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSAutoreleasePool_Class/Reference/Reference.html#//apple_ref/occ/instm/NSAutoreleasePool/drain

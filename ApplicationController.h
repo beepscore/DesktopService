@@ -27,10 +27,12 @@
 }
 
 #pragma mark properties
-// use atomic properties for thread safety
-@property(retain)IBOutlet NSTextView *logTextView;
-@property(retain)IBOutlet ThreadedDrawingView *drawView;
+// Apple recommends on Mac assign IBOutlet, on iPhone retain IBOutlet
+// applies only to nib top-level objects?
+@property(nonatomic, assign)IBOutlet ThreadedDrawingView *drawView;
+@property(nonatomic, assign)IBOutlet NSTextView *logTextView;
 
+// use atomic properties for thread safety
 @property(assign) BOOL shouldDrawColor1;
 @property(assign) BOOL shouldDrawColor2;
 @property(assign) BOOL shouldDrawColor3;
