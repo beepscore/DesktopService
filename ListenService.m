@@ -179,6 +179,9 @@ const NSUInteger kListenPort = 8081;
     if ([commandString isEqualToString:@"color3"]) {
         [appController_ setShouldDrawColor3:![appController_ shouldDrawColor3]];
     }
+    if ([commandString isEqualToString:@"clear"]) {
+        [[appController_ drawView] setNeedsDisplay:YES];
+    }
 }
 
 @end
