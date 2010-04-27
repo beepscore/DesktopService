@@ -27,4 +27,6 @@
 
 - (void)publishService;
 
+- (void)respondToCommandString:(NSString *)commandString;
+
 @end

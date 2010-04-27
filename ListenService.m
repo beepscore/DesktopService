@@ -135,8 +135,11 @@ const NSUInteger kListenPort = 8081;
 		return;
 	}	
     
+    NSString *dataString = [[NSString alloc]initWithUTF8String:[data bytes]];
 	[appController_ appendStringToLog:@"\nGot a message: "];
-	[appController_ appendStringToLog:[NSString stringWithUTF8String:[data bytes]]];
+	[appController_ appendStringToLog:dataString];
+    [self respondToCommandString:dataString];
+    [dataString release];
 	
 	// wait for a read again
 	[readFileHandle waitForDataInBackgroundAndNotify];	
@@ -161,6 +164,21 @@ const NSUInteger kListenPort = 8081;
     [appController_ appendStringToLog:
      [NSString stringWithFormat:@"Published service type:%@ with name %@ on port %d\n",
       kServiceTypeString, kServiceNameString, kListenPort]];
+}
+
+
+- (void)respondToCommandString:(NSString *)commandString
+{
+    // toggle shouldDrawColor1,2,3
+    if ([commandString isEqualToString:@"color1"]) {
+        [appController_ setShouldDrawColor1:![appController_ shouldDrawColor1]];
+    }
+    if ([commandString isEqualToString:@"color2"]) {
+        [appController_ setShouldDrawColor2:![appController_ shouldDrawColor2]];
+    }
+    if ([commandString isEqualToString:@"color3"]) {
+        [appController_ setShouldDrawColor3:![appController_ shouldDrawColor3]];
+    }
 }
 
 @end
