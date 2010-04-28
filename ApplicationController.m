@@ -189,7 +189,7 @@
 - (void)threadDrawForColor:(NSColor *)color
 {
     NSAutoreleasePool *poolOne = [[NSAutoreleasePool alloc] init];
-    NSLog(@"Started threadForColor: %@", [color description]);
+    NSLog(@"Started threadDrawForColor: %@", [color description]);
     
     NSPoint lastPoint = [[self drawView] bounds].origin;
     
@@ -220,7 +220,7 @@
             [poolTwo drain];
         }
     }
-    NSLog(@"Exited threadForColor: %@", [color description]);
+    NSLog(@"Exited threadDrawForColor: %@", [color description]);
     // ????: if breakpoint here and user clicks "Draw Red" button, execution stops in drawColor1checked.
     // doesn't happen for other draw2colorChecked. Why?  Evaluation order of conditionals?
     [poolOne drain];

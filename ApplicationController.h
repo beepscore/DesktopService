@@ -16,7 +16,8 @@
     NSTextView* logTextView_;
     ThreadedDrawingView* drawView_;
     ListenService *listenService_;
-    
+   
+    // In IB, use bindings to connect checkboxes Draw Red, Green, Blue to shouldDrawColor1, 2, 3
     BOOL shouldDrawColor1;
     BOOL shouldDrawColor2;
     BOOL shouldDrawColor3;
@@ -50,6 +51,10 @@
 
 - (void)threadDrawForColor:(NSColor *)color;
 
+
+// Note: I tried deleting the drawColor1,2,3Checked IBActions and using only bindings
+// without wrapping BOOLs via [NSNumber numberWithBool: aBool]
+// The checkboxes appeared to work, but the program leaked memory.
 - (IBAction)drawColor1Checked:(id)sender;
 
 - (IBAction)drawColor2Checked:(id)sender;
